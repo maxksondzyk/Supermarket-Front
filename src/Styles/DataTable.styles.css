@@ -1,0 +1,11 @@
+.datatable .rdt_TableCell{
+    font-size:15px;
+}
+.datatable .rdt_TableCol{
+    font-size:17px;
+
+}
+.container {
+    margin: 10px;
+    max-width: 100%;
+}
