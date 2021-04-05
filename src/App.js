@@ -13,6 +13,7 @@ import {CategoriesPage} from "./Pages/CategoriesPage";
 import {StoreProductsPage} from "./Pages/StoreProductsPage";
 import {ChecksPage} from "./Pages/ChecksPage";
 import {CustomerCardsPage} from "./Pages/CustomerCardsPage";
+import {QueriesPage} from "./Pages/QueriesPage";
 
 
 class App extends React.Component {
@@ -54,6 +55,7 @@ class App extends React.Component {
                                 {<Link to="/categories" className="nav-item nav-link">Categories</Link>}
                                 {<Link to="/checks" className="nav-item nav-link">Checks</Link>}
                                 {<Link to="/customer-cards" className="nav-item nav-link">Customer Cards</Link>}
+                                {<Link to="/queries" className="nav-item nav-link">Queries</Link>}
                                 <a onClick={this.logout} className="nav-item nav-link">Logout</a>
                             </div>
                         </nav>
@@ -67,6 +69,7 @@ class App extends React.Component {
                             <PrivateRoute path="/categories" component={CategoriesPage} />
                             <PrivateRoute path="/checks" component={ChecksPage} />
                             <PrivateRoute path="/customer-cards" component={CustomerCardsPage} />
+                            <PrivateRoute path="/queries" component={QueriesPage} />
                             <Route path="/login" component={LoginPage} />
                         </div>
                     </div>

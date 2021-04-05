@@ -45,7 +45,6 @@ class CustomerCardsPage extends React.Component {
 
     render() {
         const { currentUser, userFromApi } = this.state;
-
         const columns = [
             {
                 name: 'Card #',
@@ -97,6 +96,7 @@ class CustomerCardsPage extends React.Component {
                 button: true,
             }
         ]
+
         if(currentUser.role === 'Manager'){
             return (
                 <div>

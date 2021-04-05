@@ -6,7 +6,7 @@ import "../Styles/DataTable.styles.css"
 import {Button} from "@material-ui/core";
 import {authenticationService} from "../_services";
 
-let myArr;
+let myArr = [];
 class StoreProductsPage extends React.Component {
     constructor(props) {
         super(props);
@@ -45,7 +45,9 @@ class StoreProductsPage extends React.Component {
 
     render() {
         const { currentUser, userFromApi } = this.state;
-
+        myArr.forEach(function (item,index){
+            item.promotionalProduct = item.promotionalProduct.toString();
+        })
         const columns = [
             {
                 name: 'UPC',
