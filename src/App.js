@@ -14,6 +14,8 @@ import {StoreProductsPage} from "./Pages/StoreProductsPage";
 import {ChecksPage} from "./Pages/ChecksPage";
 import {CustomerCardsPage} from "./Pages/CustomerCardsPage";
 import {QueriesPage} from "./Pages/QueriesPage";
+import {SignUpPage} from "./Pages/SignUpPage";
+import {AddingPage} from "./Pages/AddingPage";
 
 
 class App extends React.Component {
@@ -21,27 +23,26 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             currentUser: null,
             isManager: false
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         authenticationService.currentUser.subscribe(x => this.setState({
             currentUser: x,
-            isManager: x && x.role === Role.Manager
+            isManager: x && x.roles[0] === Role.Manager
         }));
     }
 
-    logout() {
-        authenticationService.logout();
+    signOut() {
+        authenticationService.signOut();
         history.push('/login');
     }
 
     render() {
-        const { currentUser, isManager } = this.state;
+        let { currentUser, isManager } = this.state;
         return (
             <Router history={history}>
                 <div>
@@ -56,7 +57,7 @@ class App extends React.Component {
                                 {<Link to="/checks" className="nav-item nav-link">Checks</Link>}
                                 {<Link to="/customer-cards" className="nav-item nav-link">Customer Cards</Link>}
                                 {<Link to="/queries" className="nav-item nav-link">Queries</Link>}
-                                <a onClick={this.logout} className="nav-item nav-link">Logout</a>
+                                <a onClick={this.signOut} className="nav-item nav-link">Logout</a>
                             </div>
                         </nav>
                     }
@@ -70,7 +71,9 @@ class App extends React.Component {
                             <PrivateRoute path="/checks" component={ChecksPage} />
                             <PrivateRoute path="/customer-cards" component={CustomerCardsPage} />
                             <PrivateRoute path="/queries" component={QueriesPage} />
+                            <PrivateRoute path="/add" component={AddingPage} />
                             <Route path="/login" component={LoginPage} />
+                            <Route path="/signup" component={SignUpPage} />
                         </div>
                     </div>
                 </div>

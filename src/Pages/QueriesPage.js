@@ -26,6 +26,16 @@ function sleep(ms) {
 }
 
 class QueriesPage extends React.Component {
+
+    state = {
+        parameter: "",
+        currUrl: ""
+    }
+
+    onChange = e => {
+        this.setState({ parameter: e.target.value });
+    };
+
     constructor(props) {
         super(props);
 
@@ -36,18 +46,23 @@ class QueriesPage extends React.Component {
     }
 
     componentWillMount() {
-        let url1 = 'http://localhost:8080/api/query/multi-table1/Kyiv';
+
+        //Max
         let url2 = 'http://localhost:8080/api/query/multi-table2';
-        let url3 = 'http://localhost:8080/api/query/multi-table3';
-        let url4 = 'http://localhost:8080/api/query/group1';
-        let url5 = 'http://localhost:8080/api/query/group2/1';
-        let url6 = 'http://localhost:8080/api/query/group3/1';
-        let url7 = 'http://localhost:8080/api/query/group4';
         let url8 = 'http://localhost:8080/api/query/group5/400';
         let url9 = 'http://localhost:8080/api/query/group6';
-        let url10 = 'http://localhost:8080/api/query/double-not1/Ivanenko';
-        let url11 = 'http://localhost:8080/api/query/double-not2/Tokar';
         let url12 = 'http://localhost:8080/api/query/double-not3/1';
+        //Katya
+        let url3 = 'http://localhost:8080/api/query/multi-table3';
+        let url6 = 'http://localhost:8080/api/query/group3/1';
+        let url7 = 'http://localhost:8080/api/query/group4';
+        let url11 = 'http://localhost:8080/api/query/double-not2/Tokar';
+        //Danya
+        let url1 = 'http://localhost:8080/api/query/multi-table1/Kyiv';
+        let url4 = 'http://localhost:8080/api/query/group1';
+        let url5 = 'http://localhost:8080/api/query/group2/1';
+        let url10 = 'http://localhost:8080/api/query/double-not1/Ivanenko';
+
         const { currentUser } = this.state;
         userService.getById(currentUser.id).then(userFromApi => this.setState({ userFromApi }));
         this.getData(url1)
@@ -78,9 +93,14 @@ class QueriesPage extends React.Component {
         })
         // open the request with the verb and the url
         xhr.open('GET', url,false)
+        xhr.setRequestHeader("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGVwYW5vdiIsImlhdCI6MTYxNzg3MzkxMiwiZXhwIjoxNjE3OTYwMzEyfQ.y4DwBeI2h7OfwGzoy3Afxbl3djPBgtiungwHPbGnQ47daryR-VedOUnpMb7uK2YAgrpS4KYAyoaQt65RglkBCA")
+
         // send the request
         xhr.send()
 
+    }
+    handleSubmit = event => {
+        event.preventDefault();
     }
 
     getDataTables = () =>{
@@ -96,8 +116,23 @@ class QueriesPage extends React.Component {
                 })
                 return (
                     <div>
+                        <form className="form-group" onSubmit={this.handleSubmit}>
+                            <label htmlFor="inputData">Параметр</label>
+                            <div className="row">
+                                <div className="col-md-3">
+                                    <input type="text" className="form-control" id="inputData" aria-describedby="dataHelp"
+                                         placeholder="Введіть параметр" value={this.state.parameter} onChange={this.onChange}/>
+                                </div>
+                                <div className="col-sm-3">
+                                    <button type="submit" className="btn btn-primary">
+                                        Пошук
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                         <DataTable title={titles[index]} columns={columns}
                                    className="datatable" data={myArr}  highlightOnHover pagination/>
+
                     </div>
                 );
             // }

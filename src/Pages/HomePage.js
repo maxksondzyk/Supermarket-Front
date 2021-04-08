@@ -13,10 +13,6 @@ class HomePage extends React.Component {
         };
     }
 
-    componentDidMount() {
-        const { currentUser } = this.state;
-        userService.getById(currentUser.id).then(userFromApi => this.setState({ userFromApi }));
-    }
 
     render() {
         const columns = [

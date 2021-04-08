@@ -54,3 +54,11 @@ G
 src/Pages/ChecksPage.js,c\b\cb4806f999ebe7ec9b76036f2af570f2efaaec7e
 N
 src/Pages/CustomerCardsPage.js,d\1\d10ad7e76c188140abd9ba7d780e5f6552fd0096
+H
+src/Pages/QueriesPage.js,c\c\cc78b1793fef750bbb99a59fdf66d05a4ee6ac55
+F
+src/_services/index.js,6\9\69304ca681b535a1c1cb99c4b69962e7b59419f7
+G
+src/Pages/SignUpPage.js,2\1\21d64dc3a792624aa5af73aaf7d168ea222e211a
+M
+src/_services/user.service.js,4\0\40f1eb7a456779375c4f3ff49823e429528ffaa6

@@ -3,9 +3,8 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import { authenticationService } from '../_services';
-import {Link} from "react-router-dom";
 
-class LoginPage extends React.Component {
+class SignUpPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -22,25 +21,25 @@ class LoginPage extends React.Component {
                     <strong>Normal User</strong> - U: user P: user<br />
                     <strong>Administrator</strong> - U: admin P: admin
                 </div>
-                <h2>Sign In</h2>
+                <h2>Sign Up</h2>
                 <Formik
                     initialValues={{
                         username: '',
-                        password: ''
+                        password: '',
+                        idEmployee: '',
                     }}
                     validationSchema={Yup.object().shape({
                         username: Yup.string().required('Username is required'),
-                        password: Yup.string().required('Password is required')
+                        password: Yup.string().required('Password is required'),
+                        idEmployee: Yup.string().required('Employee ID is required')
                     })}
-                    onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
-                        location.reload()
+                    onSubmit={({ username, password, idEmployee }, { setStatus, setSubmitting }) => {
                         setStatus();
-                        authenticationService.signIn(username, password)
+                        authenticationService.signUp(username, password, idEmployee)
                             .then(
                                 user => {
                                     const { from } = this.props.location.state || { from: { pathname: "/" } };
                                     this.props.history.push(from);
-
                                 },
                                 error => {
                                     setSubmitting(false);
@@ -49,7 +48,6 @@ class LoginPage extends React.Component {
                             );
                     }}
                     render={({ errors, status, touched, isSubmitting }) => (
-                        <div>
                         <Form>
                             <div className="form-group">
                                 <label htmlFor="username">Username</label>
@@ -62,7 +60,12 @@ class LoginPage extends React.Component {
                                 <ErrorMessage name="password" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group">
-                                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Sign In</button>
+                                <label htmlFor="idEmployee">Employee ID</label>
+                                <Field name="idEmployee" type="text" className={'form-control' + (errors.idEmployee && touched.idEmployee ? ' is-invalid' : '')} />
+                                <ErrorMessage name="idEmployee" component="div" className="invalid-feedback" />
+                            </div>
+                            <div className="form-group">
+                                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Sign Up</button>
                                 {isSubmitting &&
                                 <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                                 }
@@ -71,9 +74,6 @@ class LoginPage extends React.Component {
                             <div className={'alert alert-danger'}>{status}</div>
                             }
                         </Form>
-                            <Link to="/signup" className="btn btn-primary">Sign up</Link>
-                        </div>
-
                     )}
                 />
             </div>
@@ -81,4 +81,4 @@ class LoginPage extends React.Component {
     }
 }
 
-export { LoginPage }; 
+export { SignUpPage };
