@@ -19,6 +19,38 @@ let titles = [
     "Покупці, які обслуговувалися у всіх тих і тільки тих касирів, що і покупець Tokar",
     "Чеки із тими і тільки тими товарами що і у чеку 1"
 ]
+let titlesBase = [
+    "Всі касири, які обслуговували покупців із ",
+    "Середня кількість товарів у чеку покупця",
+    "Найпопулярніші товари в кожній категорії",
+    "Найпопулярніші товари",
+    "Відсортовані за кількістю куплених товарів продукти, які купує покупець ",
+    "Покупець який витратив найбільше коштів на продукти з категорії ",
+    "Кількість товарів, які продаються по акції у кожній категорії",
+    "Загальна сума всіх чеків кожного касира за останні днів",
+    "Покупці відсортовані за кількістю витрачених грошей",
+    "Касири, які обслуговували всіх тих і тільки тих покупців, яких обслуговував ",
+    "Покупці, які обслуговувалися у всіх тих і тільки тих касирів, що і покупець ",
+    "Чеки із тими і тільки тими товарами що і у чеку "
+]
+
+let urls = []
+
+let urlsBase = [
+    'http://localhost:8080/api/query/multi-table1/',
+    'http://localhost:8080/api/query/multi-table2',
+    'http://localhost:8080/api/query/multi-table3',
+    'http://localhost:8080/api/query/group1',
+    'http://localhost:8080/api/query/group2/',
+    'http://localhost:8080/api/query/group3/',
+    'http://localhost:8080/api/query/group4',
+    'http://localhost:8080/api/query/group5/',
+    'http://localhost:8080/api/query/group6',
+    'http://localhost:8080/api/query/double-not1/',
+    'http://localhost:8080/api/query/double-not2/',
+    'http://localhost:8080/api/query/double-not3/'
+]
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -62,19 +94,31 @@ class QueriesPage extends React.Component {
         let url5 = 'http://localhost:8080/api/query/group2/1';
         let url10 = 'http://localhost:8080/api/query/double-not1/Ivanenko';
 
+        urls.push(url1);urls.push(url2);urls.push(url3);urls.push(url4);urls.push(url5);urls.push(url6);
+        urls.push(url7);urls.push(url8);urls.push(url9);urls.push(url10);urls.push(url11);urls.push(url12);
 
-        this.getData(url1)
-        this.getData(url2)
-        this.getData(url3)
-        this.getData(url4)
-        this.getData(url5)
-        this.getData(url6)
-        this.getData(url7)
-        this.getData(url8)
-        this.getData(url9)
-        this.getData(url10)
-        this.getData(url11)
-        this.getData(url12)
+        if(localStorage.getItem("query")){
+            urls[parseInt(localStorage.getItem("num"))] = localStorage.getItem("query")
+        }
+        if(localStorage.getItem("title")){
+            titles[parseInt(localStorage.getItem("num"))] = localStorage.getItem("title")
+        }
+
+        urls.forEach(value =>{
+            this.getData(value);
+        })
+        // this.getData(url1)
+        // this.getData(url2)
+        // this.getData(url3)
+        // this.getData(url4)
+        // this.getData(url5)
+        // this.getData(url6)
+        // this.getData(url7)
+        // this.getData(url8)
+        // this.getData(url9)
+        // this.getData(url10)
+        // this.getData(url11)
+        // this.getData(url12)
 
     }
 
@@ -99,21 +143,29 @@ class QueriesPage extends React.Component {
         xhr.send()
 
     }
-    handleSubmit = event => {
+    handleSubmit(event, index) {
         event.preventDefault();
+        // this.getData(`${urlsBase[index]}${this.state.parameter}`)
+        // urls[0] = `${urlsBase[0]}${this.state.parameter}`
+        // titles[0] = `${titlesBase[0]}${this.state.parameter}`
+       /// alert(titles[0])
+        localStorage.setItem("num",index.toString());
+        localStorage.setItem("query",`${urlsBase[index]}${this.state.parameter}`);
+        localStorage.setItem("title",`${titlesBase[index]}${this.state.parameter}`);
+        location.href = `/queries`;
     }
 
     getDataTables = () =>{
         return results.map((myArr,index) => {
             let keys = Object.keys(myArr[0]);
             const columns = []
-            keys.forEach(function (item, index) {
+            keys.forEach(function (item) {
                 console.log(item)
                 columns.push({name: item, selector: item, sortable: true})
             })
             return (
                 <div>
-                    <form className="form-group" onSubmit={this.handleSubmit}>
+                    <form className="form-group" onSubmit={event =>{this.handleSubmit(event,index)}}>
                         <label htmlFor="inputData">Параметр</label>
                         <div className="row">
                             <div className="col-md-3">
