@@ -22,7 +22,7 @@ class CategoriesPage extends React.Component {
 
     render() {
         const { currentUser, userFromApi } = this.state;
-        return userService.getRender(myArr,currentUser, "Categories");
+        return userService.getRender('categories',myArr,currentUser, "Categories");
     }
 }
 export { CategoriesPage };

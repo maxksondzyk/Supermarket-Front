@@ -22,7 +22,7 @@ class ChecksPage extends React.Component {
 
     render() {
         const { currentUser, userFromApi } = this.state;
-        return userService.getRender(myArr,currentUser, "Checks");
+        return userService.getRender('checks',myArr,currentUser, "Checks");
     }
 }
 export { ChecksPage };

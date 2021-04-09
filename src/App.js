@@ -71,7 +71,7 @@ class App extends React.Component {
                             <PrivateRoute path="/checks" component={ChecksPage} />
                             <PrivateRoute path="/customer-cards" component={CustomerCardsPage} />
                             <PrivateRoute path="/queries" component={QueriesPage} />
-                            <PrivateRoute path="/add" component={AddingPage} />
+                            <PrivateRoute path="/add/:req" component={AddingPage} />
                             <Route path="/login" component={LoginPage} />
                             <Route path="/signup" component={SignUpPage} />
                         </div>

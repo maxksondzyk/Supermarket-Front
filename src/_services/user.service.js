@@ -32,7 +32,7 @@ function getData(req, currentUser){
 }
 
 
-function getRender(myArr, currentUser, name){
+function getRender(req,myArr, currentUser, name){
 
     let keys = Object.keys(myArr[0]);
     const columns = []
@@ -44,6 +44,7 @@ function getRender(myArr, currentUser, name){
             cell: () => <Button variant={"outlined"} color="primary" size={"small"}>Edit</Button>,
             button: true,
         })
+
         return (
             <div>
                 <DataTable
@@ -54,7 +55,7 @@ function getRender(myArr, currentUser, name){
                     selectableRows
                     highlightOnHover
                     pagination
-                    actions={<Link to="/add" className="btn btn-primary">Add</Link>}/>
+                    actions={<Link to={'/add/'+req} params={{ "page": req }} className="btn btn-primary">Add</Link>}/>
             </div>
         );
     }

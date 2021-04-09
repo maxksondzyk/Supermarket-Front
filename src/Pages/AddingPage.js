@@ -13,14 +13,14 @@ class AddingPage extends React.Component {
 
         this.state = {
             currentUser: authenticationService.currentUserValue,
-            userFromApi: null
+            req:null
         }
     }
 
     componentWillMount() {
+        this.state.req = this.props.match.params.req
         const { currentUser } = this.state;
-        userService.getById(currentUser.id).then(userFromApi => this.setState({ userFromApi }));
-        myArr = this.getData('categories', currentUser)
+        myArr = this.getData(this.state.req, currentUser)
     }
 
     getData(req, currentUser){
@@ -46,9 +46,7 @@ class AddingPage extends React.Component {
         let body = `{"${event.target[0].id}":"${event.target[0].value}"`;
         event.preventDefault()
         for(let i = 1;i<event.target.length-1;i++) {
-            // if(i === event.target.length-2)
-            //     body = body.concat(`${event.target[i].id}=${event.target[i].value}`)
-            // else
+            if(event.target[i].value)
                 body = body.concat(`,"${event.target[i].id}":"${event.target[i].value}"`)
         }
         body = body.concat(`}`)
@@ -61,8 +59,9 @@ class AddingPage extends React.Component {
         xhr.addEventListener('load', () => {
             // update the state of the component with the result here
         })
+        alert(this.state.req)
         // open the request with the verb and the url
-        xhr.open('POST', `http://localhost:8080/api/categories`,false)
+        xhr.open('POST', `http://localhost:8080/api/${this.state.req}`,false)
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.setRequestHeader("Authorization", `Bearer ${currentUser.token}`)
         // send the request
@@ -71,7 +70,7 @@ class AddingPage extends React.Component {
 
     render() {
         let toRender = [];
-        const { currentUser, userFromApi } = this.state;
+        const { currentUser} = this.state;
         let keys = Object.keys(myArr[0]);
         return (
             <div>
@@ -79,7 +78,7 @@ class AddingPage extends React.Component {
                 {keys.map((item, index) => (
                     <div className="form-group">
                         <label htmlFor="inp">{item}</label>
-                        <input type="inp" name="inp" required className="form-control" id={item}>
+                        <input type="inp" name="inp" className="form-control" id={item}>
                         </input>
                     </div>))}
                     <button type="submit" className="btn btn-primary">Додати</button>

@@ -25,7 +25,7 @@ class StoreProductsPage extends React.Component {
         myArr.forEach(function (item,index){
             item.promotionalProduct = item.promotionalProduct.toString();
         })
-        return userService.getRender(myArr,currentUser, "Products in Store");
+        return userService.getRender('store-products',myArr,currentUser, "Products in Store");
     }
 }
 export { StoreProductsPage };

@@ -22,7 +22,7 @@ class CustomerCardsPage extends React.Component {
 
     render() {
         const { currentUser, userFromApi } = this.state;
-        return userService.getRender(myArr,currentUser, "Customer cards");
+        return userService.getRender('customer-cards',myArr,currentUser, "Customer cards");
     }
 }
 export { CustomerCardsPage };

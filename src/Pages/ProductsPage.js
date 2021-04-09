@@ -22,7 +22,7 @@ class ProductsPage extends React.Component {
 
     render() {
         const { currentUser, userFromApi } = this.state;
-        return userService.getRender(myArr,currentUser, "Products");
+        return userService.getRender('products',myArr,currentUser, "Products");
     }
 }
 export { ProductsPage };
