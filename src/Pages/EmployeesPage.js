@@ -21,7 +21,7 @@ class EmployeesPage extends React.Component {
     }
 
     render() {
-        const { currentUser, userFromApi } = this.state;
+        const { currentUser} = this.state;
         return userService.getRender('employees',myArr,currentUser, "Employees");
     }
 }

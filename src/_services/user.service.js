@@ -1,16 +1,19 @@
 
 import {Button} from "@material-ui/core";
 import DataTable from "react-data-table-component";
-import React from "react";
-import {Link} from "react-router-dom";
-
+import React, {useEffect} from "react";
+import {BrowserRouter, Link} from "react-router-dom";
 
 export const userService = {
     getData,
     getRender
 };
 
-function getData(req, currentUser){
+let page = '';
+let currentUser;
+
+function getData(req, currentUser1){
+    currentUser = currentUser1
     let myArr = [];
     // create a new XMLHttpRequest
     let xhr = new XMLHttpRequest()
@@ -31,20 +34,69 @@ function getData(req, currentUser){
     return myArr;
 }
 
+function deleteRows(event,row){
+    event.preventDefault();
+        // create a new XMLHttpRequest
+        let xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function () {
+
+        };
+        // get a callback when the server responds
+        xhr.addEventListener('load', () => {
+
+        })
+        let id = 0;
+        for (let key in row) {
+            if (row.hasOwnProperty(key)) {
+                id = row[key];
+                break;
+            }
+        }
+        // open the request with the verb and the url
+        xhr.open('DELETE', `http://localhost:8080/api/${page}/${id}`, false)
+
+        xhr.setRequestHeader("Authorization", `Bearer ${currentUser.token}`)
+        // send the request
+        xhr.send()
+        getData(page, currentUser)
+    // location.reload()
+    location.href = `/${page}`;
+}
+
+
 
 function getRender(req,myArr, currentUser, name){
 
+    page = req;
     let keys = Object.keys(myArr[0]);
     const columns = []
     keys.forEach(function (item, index) {
-        columns.push({name: item, selector: item, sortable: true})
+        columns.push({name: item, selector: item, sortable: true, minWidth:`${13*item.length}px`})
     })
-    if(currentUser.roles[0] === 'manager'){
-        columns.push({
-            cell: () => <Button variant={"outlined"} color="primary" size={"small"}>Edit</Button>,
-            button: true,
-        })
 
+    if(currentUser.roles[0] === 'manager' || req ==='checks' || req === 'customer-cards'){
+        function newTo(row){
+            return({
+                    pathname: '/edit/' + req,
+                    param1: row
+                }
+            )
+        }
+
+        columns.unshift({
+            cell: row => <Link to={newTo(row)} variant={"outlined"} color="primary" size={"small"} className="btn btn-warning">Edit</Link>,
+            button: true,
+            compact: true
+        })
+        if(currentUser.roles[0] === 'manager') {
+            columns.unshift({
+                cell: row => <button onClick={function (event) {
+                    deleteRows(event, row)
+                }} className="btn btn-danger">Delete</button>,
+                button: true,
+                compact: true,
+            })
+        }
         return (
             <div>
                 <DataTable
@@ -52,7 +104,6 @@ function getRender(req,myArr, currentUser, name){
                     columns={columns}
                     className="datatable"
                     data={myArr}
-                    selectableRows
                     highlightOnHover
                     pagination
                     actions={<Link to={'/add/'+req} params={{ "page": req }} className="btn btn-primary">Add</Link>}/>

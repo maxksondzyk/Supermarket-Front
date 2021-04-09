@@ -33,7 +33,6 @@ class LoginPage extends React.Component {
                         password: Yup.string().required('Password is required')
                     })}
                     onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
-                        location.reload()
                         setStatus();
                         authenticationService.signIn(username, password)
                             .then(
@@ -47,6 +46,7 @@ class LoginPage extends React.Component {
                                     setStatus(error);
                                 }
                             );
+                        location.href = `/`;
                     }}
                     render={({ errors, status, touched, isSubmitting }) => (
                         <div>

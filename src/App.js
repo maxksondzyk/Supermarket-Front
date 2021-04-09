@@ -16,6 +16,7 @@ import {CustomerCardsPage} from "./Pages/CustomerCardsPage";
 import {QueriesPage} from "./Pages/QueriesPage";
 import {SignUpPage} from "./Pages/SignUpPage";
 import {AddingPage} from "./Pages/AddingPage";
+import {EditingPage} from "./Pages/EditingPage";
 
 
 class App extends React.Component {
@@ -72,6 +73,7 @@ class App extends React.Component {
                             <PrivateRoute path="/customer-cards" component={CustomerCardsPage} />
                             <PrivateRoute path="/queries" component={QueriesPage} />
                             <PrivateRoute path="/add/:req" component={AddingPage} />
+                            <PrivateRoute path="/edit/:req" component={EditingPage} />
                             <Route path="/login" component={LoginPage} />
                             <Route path="/signup" component={SignUpPage} />
                         </div>

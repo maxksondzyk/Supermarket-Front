@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { userService } from '@/_services';
 import DataTable from "react-data-table-component";
 import "../Styles/DataTable.styles.css"
-import {Button} from "@material-ui/core";
 import {authenticationService} from "../_services";
 
 let results = []
@@ -28,6 +26,7 @@ function sleep(ms) {
 class QueriesPage extends React.Component {
 
     state = {
+        currentUser: authenticationService.currentUserValue,
         parameter: "",
         currUrl: ""
     }
@@ -63,8 +62,7 @@ class QueriesPage extends React.Component {
         let url5 = 'http://localhost:8080/api/query/group2/1';
         let url10 = 'http://localhost:8080/api/query/double-not1/Ivanenko';
 
-        const { currentUser } = this.state;
-        userService.getById(currentUser.id).then(userFromApi => this.setState({ userFromApi }));
+
         this.getData(url1)
         this.getData(url2)
         this.getData(url3)
@@ -82,10 +80,12 @@ class QueriesPage extends React.Component {
 
 
     getData(url) {
+        const { currentUser } = this.state;
         // create a new XMLHttpRequest
         let xhr = new XMLHttpRequest()
         xhr.onreadystatechange = function() {
-            results.push(JSON.parse(this.responseText));
+            if(this.responseText)
+                results.push(JSON.parse(this.responseText));
         };
         // get a callback when the server responds
         xhr.addEventListener('load', () => {
@@ -93,7 +93,7 @@ class QueriesPage extends React.Component {
         })
         // open the request with the verb and the url
         xhr.open('GET', url,false)
-        xhr.setRequestHeader("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGVwYW5vdiIsImlhdCI6MTYxNzg3MzkxMiwiZXhwIjoxNjE3OTYwMzEyfQ.y4DwBeI2h7OfwGzoy3Afxbl3djPBgtiungwHPbGnQ47daryR-VedOUnpMb7uK2YAgrpS4KYAyoaQt65RglkBCA")
+        xhr.setRequestHeader("Authorization", `Bearer ${currentUser.token}`)
 
         // send the request
         xhr.send()
@@ -105,39 +105,32 @@ class QueriesPage extends React.Component {
 
     getDataTables = () =>{
         return results.map((myArr,index) => {
-            console.log(myArr)
-            const { currentUser, userFromApi } = this.state;
-            // if(myArr.length>0) {
-                let keys = Object.keys(myArr[0]);
-                const columns = []
-                keys.forEach(function (item, index) {
-                    console.log(item)
-                    columns.push({name: item, selector: item, sortable: true})
-                })
-                return (
-                    <div>
-                        <form className="form-group" onSubmit={this.handleSubmit}>
-                            <label htmlFor="inputData">Параметр</label>
-                            <div className="row">
-                                <div className="col-md-3">
-                                    <input type="text" className="form-control" id="inputData" aria-describedby="dataHelp"
-                                         placeholder="Введіть параметр" value={this.state.parameter} onChange={this.onChange}/>
-                                </div>
-                                <div className="col-sm-3">
-                                    <button type="submit" className="btn btn-primary">
-                                        Пошук
-                                    </button>
-                                </div>
+            let keys = Object.keys(myArr[0]);
+            const columns = []
+            keys.forEach(function (item, index) {
+                console.log(item)
+                columns.push({name: item, selector: item, sortable: true})
+            })
+            return (
+                <div>
+                    <form className="form-group" onSubmit={this.handleSubmit}>
+                        <label htmlFor="inputData">Параметр</label>
+                        <div className="row">
+                            <div className="col-md-3">
+                                <input type="text" className="form-control" id="inputData" aria-describedby="dataHelp"
+                                       placeholder="Введіть параметр" value={this.state.parameter} onChange={this.onChange}/>
                             </div>
-                        </form>
-                        <DataTable title={titles[index]} columns={columns}
-                                   className="datatable" data={myArr}  highlightOnHover pagination/>
-
-                    </div>
+                            <div className="col-sm-3">
+                                <button type="submit" className="btn btn-primary">
+                                    Пошук
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <DataTable title={titles[index]} columns={columns}
+                               className="datatable" data={myArr}  highlightOnHover pagination/>
+                </div>
                 );
-            // }
-
-
         })
     }
 
@@ -147,43 +140,6 @@ class QueriesPage extends React.Component {
                 {this.getDataTables()}
             </div>
         );
-        // let nQuery = 1;
-        // // const { currentUser, userFromApi } = this.state;
-        // let myArr = results[0]
-        //
-        // if(myArr.length>0) {
-        //
-        //     let keys = Object.keys(myArr[0]);
-        //     const columns = []
-        //
-        //     keys.forEach(function (item, index) {
-        //         console.log(item)
-        //         columns.push({name: item, selector: item, sortable: true})
-        //     })
-        //
-        //     if (currentUser.role === 'Manager') {
-        //         columns.push({
-        //             cell: () => <Button variant={"outlined"} color="primary" size={"small"}>Edit</Button>,
-        //             button: true,
-        //         })
-        //         return (
-        //             <div>
-        //                 <DataTable title={titles[nQuery]} columns={columns}
-        //                            className="datatable" data={myArr}  highlightOnHover pagination/>
-        //             </div>
-        //         );
-        //     } else return (
-        //         <div>
-        //             <DataTable title={titles[nQuery]} columns={columns}
-        //                        className="datatable" data={myArr} highlightOnHover pagination/>
-        //         </div>
-        //     );
-        // } else return (
-        //     <div>
-        //         No results
-        // </div>
-        // );
-
     }
 
 }

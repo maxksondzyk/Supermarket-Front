@@ -17,7 +17,7 @@ class CategoriesPage extends React.Component {
 
     componentWillMount() {
         const { currentUser } = this.state;
-        myArr = userService.getData('categories', currentUser);
+        myArr = userService.getData('categories', currentUser)
     }
 
     render() {
