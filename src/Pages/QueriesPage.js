@@ -10,10 +10,10 @@ let titles = [
     "Середня кількість товарів у чеку покупця",
     "Найпопулярніші товари в кожній категорії",
     "Найпопулярніші товари",
-    "Продукти, які купує покупець 1, відсортовані за кількістю куплених товарів",
+    "Відсортовані за кількістю куплених товарів продукти, які купує покупець 1",
     "Покупець який витратив найбільше коштів на продукти з категорії 1",
     "Кількість товарів, які продаються по акції у кожній категорії",
-    "Загальна сума всіх чеків кожного касира за останні 400 днів",
+    "Загальна сума всіх чеків кожного касира за останні днів 400",
     "Покупці відсортовані за кількістю витрачених грошей",
     "Касири, які обслуговували всіх тих і тільки тих покупців, яких обслуговував Ivanenko",
     "Покупці, які обслуговувалися у всіх тих і тільки тих касирів, що і покупець Tokar",
@@ -27,7 +27,7 @@ let titlesBase = [
     "Відсортовані за кількістю куплених товарів продукти, які купує покупець ",
     "Покупець який витратив найбільше коштів на продукти з категорії ",
     "Кількість товарів, які продаються по акції у кожній категорії",
-    "Загальна сума всіх чеків кожного касира за останні днів",
+    "Загальна сума всіх чеків кожного касира за останні днів ",
     "Покупці відсортовані за кількістю витрачених грошей",
     "Касири, які обслуговували всіх тих і тільки тих покупців, яких обслуговував ",
     "Покупці, які обслуговувалися у всіх тих і тільки тих касирів, що і покупець ",
@@ -64,7 +64,7 @@ class QueriesPage extends React.Component {
     }
 
     onChange = e => {
-        this.setState({ parameter: e.target.value });
+         this.setState({ parameter: e.target.value });
     };
 
     constructor(props) {
@@ -74,6 +74,14 @@ class QueriesPage extends React.Component {
             currentUser: authenticationService.currentUserValue,
             userFromApi: null
         }
+    }
+    automateRefresh() {
+
+            this.setState({ users: [] });
+            urls.forEach(value =>{
+                this.getData(value);
+            })
+
     }
 
     componentWillMount() {
@@ -97,28 +105,9 @@ class QueriesPage extends React.Component {
         urls.push(url1);urls.push(url2);urls.push(url3);urls.push(url4);urls.push(url5);urls.push(url6);
         urls.push(url7);urls.push(url8);urls.push(url9);urls.push(url10);urls.push(url11);urls.push(url12);
 
-        if(localStorage.getItem("query")){
-            urls[parseInt(localStorage.getItem("num"))] = localStorage.getItem("query")
-        }
-        if(localStorage.getItem("title")){
-            titles[parseInt(localStorage.getItem("num"))] = localStorage.getItem("title")
-        }
-
         urls.forEach(value =>{
             this.getData(value);
         })
-        // this.getData(url1)
-        // this.getData(url2)
-        // this.getData(url3)
-        // this.getData(url4)
-        // this.getData(url5)
-        // this.getData(url6)
-        // this.getData(url7)
-        // this.getData(url8)
-        // this.getData(url9)
-        // this.getData(url10)
-        // this.getData(url11)
-        // this.getData(url12)
 
     }
 
@@ -145,14 +134,11 @@ class QueriesPage extends React.Component {
     }
     handleSubmit(event, index) {
         event.preventDefault();
-        // this.getData(`${urlsBase[index]}${this.state.parameter}`)
-        // urls[0] = `${urlsBase[0]}${this.state.parameter}`
-        // titles[0] = `${titlesBase[0]}${this.state.parameter}`
-       /// alert(titles[0])
-        localStorage.setItem("num",index.toString());
-        localStorage.setItem("query",`${urlsBase[index]}${this.state.parameter}`);
-        localStorage.setItem("title",`${titlesBase[index]}${this.state.parameter}`);
-        location.href = `/queries`;
+        results = [];
+        urls[index] = `${urlsBase[index]}${this.state.parameter}`
+        titles[index] = `${titlesBase[index]}${this.state.parameter}`
+
+        this.automateRefresh();
     }
 
     getDataTables = () =>{
@@ -160,29 +146,40 @@ class QueriesPage extends React.Component {
             let keys = Object.keys(myArr[0]);
             const columns = []
             keys.forEach(function (item) {
-                console.log(item)
                 columns.push({name: item, selector: item, sortable: true})
             })
-            return (
+            if(index===0 || index === 4 || index === 5 || index === 7 || index === 9 || index === 10 || index === 11) {
+                return (
+                    <div>
+                        <form className="form-group" onSubmit={event => {
+                            this.handleSubmit(event, index)
+                        }}>
+                            <label htmlFor="inputData">Параметр</label>
+                            <div className="row">
+                                <div className="col-md-3">
+                                    <input type="text" className="form-control" id="inputData"
+                                           aria-describedby="dataHelp"
+                                           placeholder="Введіть параметр"
+                                           onChange={this.onChange}/>
+                                    <button type="submit" className="btn btn-primary">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <DataTable title={titles[index]} columns={columns}
+                                   className="datatable" data={myArr} highlightOnHover pagination/>
+                    </div>
+                );
+            }
+            else {
+                return(
                 <div>
-                    <form className="form-group" onSubmit={event =>{this.handleSubmit(event,index)}}>
-                        <label htmlFor="inputData">Параметр</label>
-                        <div className="row">
-                            <div className="col-md-3">
-                                <input type="text" className="form-control" id="inputData" aria-describedby="dataHelp"
-                                       placeholder="Введіть параметр" value={this.state.parameter} onChange={this.onChange}/>
-                            </div>
-                            <div className="col-sm-3">
-                                <button type="submit" className="btn btn-primary">
-                                    Пошук
-                                </button>
-                            </div>
-                        </div>
-                    </form>
                     <DataTable title={titles[index]} columns={columns}
-                               className="datatable" data={myArr}  highlightOnHover pagination/>
+                               className="datatable" data={myArr} highlightOnHover pagination/>
                 </div>
                 );
+            }
         })
     }
 
@@ -195,9 +192,4 @@ class QueriesPage extends React.Component {
     }
 
 }
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 export { QueriesPage };

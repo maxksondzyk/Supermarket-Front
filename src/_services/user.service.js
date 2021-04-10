@@ -59,8 +59,6 @@ function deleteRows(event,row){
         // send the request
         xhr.send()
         getData(page, currentUser)
-    // location.reload()
-    location.href = `/${page}`;
 }
 
 
