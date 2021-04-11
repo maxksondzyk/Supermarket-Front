@@ -4,6 +4,7 @@ import { userService } from '@/_services';
 import "../Styles/DataTable.styles.css"
 import {authenticationService} from "../_services";
 import 'regenerator-runtime/runtime'
+import {csvService} from "../_services/csv.service";
 
 let myArr;
 class EmployeesPage extends React.Component {
@@ -15,30 +16,24 @@ class EmployeesPage extends React.Component {
             userFromApi: null,
             delay: 400
         }
-        // this.automateRefresh = this.automateRefresh.bind(this);
     }
-
-    // async automateRefresh() {
-    //     while (true) {
-    //         const {currentUser} = this.state;
-    //         this.setState({users: []});
-    //         myArr = userService.getData('employees', currentUser)
-    //         await sleep(this.state.delay);
-    //     }
-    // }
 
     componentWillMount() {
         const {currentUser} = this.state;
         myArr = userService.getData('employees', currentUser)
-        // this.automateRefresh()
     }
 
     render() {
         const {currentUser} = this.state;
-        return (userService.getRender('employees', myArr, currentUser, "Employees"));
+        const data = userService.getRender('employees',myArr,currentUser, "Employees");
+        return (<div>
+            <div><button className="download-btn btn btn-success"  onClick={()=>{
+            csvService.getCsv(myArr, 'employees');
+            }}> <strong>Download CSV</strong> <i class="fas fa-download"></i></button>
+            </div>
+            <div>{data}</div>
+            </div>);
     }
 }
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+
 export { EmployeesPage };

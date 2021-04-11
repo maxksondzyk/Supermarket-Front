@@ -80,7 +80,34 @@ body {
     margin-top: 10px;
 }
 
+.download-btn {
+    float: right;
+    margin-bottom: 10px;
+}
+
+
 @media print {
+
+    .rdt_Table {
+        overflow: hidden;
+    }
+
+    .rdt_TableCell {
+        position:relative;
+        left:-150px;
+    }
+
+    .rdt_TableCol {
+        position:relative;
+        left:-150px;
+    }
+
+    
+
+    .rdt_TableHead {
+        display: none;
+    }
+
     .btn{
         display: none;
     }

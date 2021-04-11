@@ -110,8 +110,7 @@ function getRender(req,myArr, currentUser, name){
                     highlightOnHover
                     actions={
                         <div>
-                        <Link to={'/add/'+req} params={{ "page": req }} className="btn btn-primary">Add</Link>
-                            <button className={"btn btn-primary"} onClick={window.print}>Print</button>
+                        <Link to={'/add/'+req} params={{ "page": req }} className="btn btn-primary"><i class="fas fa-plus"></i> Add</Link>
                         </div>
                     }
                 />
