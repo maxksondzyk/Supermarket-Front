@@ -76,6 +76,9 @@ body {
     margin-bottom: 10px;
     /*border: black solid 4px;*/
 }
+.checkForm{
+    margin-top: 10px;
+}
 
 @media print {
     .btn{
