@@ -15,22 +15,22 @@ class CategoriesPage extends React.Component {
             userFromApi: null,
             delay: 400
         }
-         this.automateRefresh = this.automateRefresh.bind(this);
+         // this.automateRefresh = this.automateRefresh.bind(this);
     }
 
-    async automateRefresh() {
-        while (true) {
-            const { currentUser } = this.state;
-            this.setState({ users: [] });
-            myArr = userService.getData('categories', currentUser)
-            await sleep(this.state.delay);
-        }
-    }
+    // async automateRefresh() {
+    //     while (true) {
+    //         const { currentUser } = this.state;
+    //         this.setState({ users: [] });
+    //         myArr = userService.getData('categories', currentUser)
+    //         await sleep(this.state.delay);
+    //     }
+    // }
 
     componentWillMount() {
         const { currentUser } = this.state;
         myArr = userService.getData('categories', currentUser)
-         this.automateRefresh()
+         // this.automateRefresh()
     }
 
     render() {

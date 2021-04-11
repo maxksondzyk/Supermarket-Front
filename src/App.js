@@ -18,6 +18,7 @@ import {AddingPage} from "./Pages/AddingPage";
 import {EditingPage} from "./Pages/EditingPage";
 import {ManagerQueriesPage} from "./Pages/ManagerQueriesPage";
 import {CashierQueriesPage} from "./Pages/CashierQueriesPage";
+import {SalesPage} from "./Pages/SalesPage";
 
 class App extends React.Component {
 
@@ -76,7 +77,7 @@ class App extends React.Component {
                                         {<Link to="/customer-cards" className="nav-item nav-link">Customer Cards</Link>}
                                     </li>
                                     <li className="nav-item">
-                                        {<Link to="/queries" className="nav-item nav-link">Queries</Link>}
+                                        {<Link to="/sales" className="nav-item nav-link">Sales</Link>}
                                     </li>
                                     <li className="nav-item">
                                         {isManager && <Link to="/manager-queries" className="nav-item nav-link">Manager Queries</Link>}
@@ -101,7 +102,8 @@ class App extends React.Component {
                             <PrivateRoute path="/checks" component={ChecksPage} />
                             <PrivateRoute path="/customer-cards" component={CustomerCardsPage} />
                             <PrivateRoute path="/queries" component={QueriesPage} />
-                            <PrivateRoute path="/manager-queries" component={ManagerQueriesPage} />
+                            <PrivateRoute path="/sales" component={SalesPage} />
+                            <PrivateRoute path="/manager-queries" roles={[Role.Manager]} component={ManagerQueriesPage} />
                             <PrivateRoute path="/cashier-queries" component={CashierQueriesPage} />
                             <PrivateRoute path="/add/:req" component={AddingPage} />
                             <PrivateRoute path="/edit/:req" component={EditingPage} />

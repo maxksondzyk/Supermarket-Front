@@ -4,6 +4,16 @@ import "../Styles/DataTable.styles.css"
 import {authenticationService} from "../_services";
 
 let myArr;
+
+let checkTypes = ['number','number','number','date','number','number']
+let employeeTypes = ['number','text','text','text','text','number','date','date','tel','text','text','number']
+let productsTypes = ['number','number','text','text']
+let storeProductsTypes = ['number','number','number','number','text']
+let categoriesTypes = ['number', 'text']
+let customerCardsTypes = ['number','text','text','text','tel','text','text','number','number']
+let salesTypes = ['number','number','number','number']
+let types;
+
 class AddingPage extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +28,28 @@ class AddingPage extends React.Component {
         this.state.req = this.props.match.params.req
         const { currentUser } = this.state;
         myArr = this.getData(this.state.req, currentUser)
+
+        if(this.state.req === 'checks'){
+            types = checkTypes;
+        }
+        else if (this.state.req === 'employees'){
+            types = employeeTypes
+        }
+        else if (this.state.req === 'products'){
+            types = productsTypes
+        }
+        else if (this.state.req === 'store-products'){
+            types = storeProductsTypes
+        }
+        else if (this.state.req === 'categories'){
+            types = categoriesTypes
+        }
+        else if (this.state.req === 'customer-cards'){
+            types = customerCardsTypes
+        }
+        else if (this.state.req === 'sales'){
+            types = salesTypes
+        }
     }
 
     getData(req, currentUser){
@@ -58,17 +90,21 @@ class AddingPage extends React.Component {
     }
 
     render() {
-        let keys = Object.keys(myArr[0]);
+        // const { rowKeys, rowValues} = this.state;
+        let rowKeys = Object.keys(myArr[0]);
+        let toRender = [];
+        for(let i = 0;i<rowKeys.length;i++){
+                toRender.push(<div className="form-group">
+                    <label htmlFor="inp">{rowKeys[i]}</label>
+                    <input type={types[i]} name="inp" className="form-control" id={i}>
+                    </input>
+                </div>);
+        }
         return (
             <div>
                 <form onSubmit={this.sendData}>
-                {keys.map((item, index) => (
-                    <div className="form-group">
-                        <label htmlFor="inp">{item}</label>
-                        <input type="inp" name="inp" className="form-control" id={item}>
-                        </input>
-                    </div>))}
-                    <button type="submit" className="btn btn-primary">Додати</button>
+                    {toRender}
+                    <button type="submit" className="btn btn-primary">Add</button>
                 </form>
             </div>);
     }

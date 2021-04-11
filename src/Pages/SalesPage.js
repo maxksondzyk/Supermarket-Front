@@ -6,7 +6,7 @@ import {authenticationService} from "../_services";
 import 'regenerator-runtime/runtime'
 
 let myArr;
-class EmployeesPage extends React.Component {
+class SalesPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -17,28 +17,27 @@ class EmployeesPage extends React.Component {
         }
         // this.automateRefresh = this.automateRefresh.bind(this);
     }
-
     // async automateRefresh() {
     //     while (true) {
-    //         const {currentUser} = this.state;
-    //         this.setState({users: []});
-    //         myArr = userService.getData('employees', currentUser)
+    //         const { currentUser } = this.state;
+    //         this.setState({ users: [] });
+    //         myArr = userService.getData('sales', currentUser)
     //         await sleep(this.state.delay);
     //     }
     // }
 
     componentWillMount() {
-        const {currentUser} = this.state;
-        myArr = userService.getData('employees', currentUser)
+        const { currentUser } = this.state;
+        myArr = userService.getData('sales', currentUser);
         // this.automateRefresh()
     }
 
     render() {
-        const {currentUser} = this.state;
-        return (userService.getRender('employees', myArr, currentUser, "Employees"));
+        const { currentUser, userFromApi } = this.state;
+        return userService.getRender('sales',myArr,currentUser, "Sales");
     }
 }
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-export { EmployeesPage };
+export { SalesPage };
