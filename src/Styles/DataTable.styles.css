@@ -1,3 +1,27 @@
+body {
+    background-color: #e9ecef;
+}
+
+.signup-button {
+    position: relative;
+    top: -69px;
+    left: 90px;    
+}
+
+.welcomeHome p {
+    font-size:27px;
+    margin-bottom: 0px;
+}
+
+.welcomeHome .badge {
+    color: #ffffff;
+}
+
+.jumbotron {
+    margin-bottom: 0px;
+    height: 100%;
+}
+
 .datatable .rdt_TableCell{
     font-size:15px;
 }

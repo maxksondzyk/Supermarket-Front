@@ -17,10 +17,6 @@ class SignUpPage extends React.Component {
     render() {
         return (
             <div>
-                <div className="alert alert-info">
-                    <strong>Normal User</strong> - U: user P: user<br />
-                    <strong>Administrator</strong> - U: admin P: admin
-                </div>
                 <h2>Sign Up</h2>
                 <Formik
                     initialValues={{
@@ -50,17 +46,17 @@ class SignUpPage extends React.Component {
                     render={({ errors, status, touched, isSubmitting }) => (
                         <Form>
                             <div className="form-group">
-                                <label htmlFor="username">Username</label>
+                                <label htmlFor="username"><strong>Username:</strong></label>
                                 <Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
                                 <ErrorMessage name="username" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="password">Password</label>
+                                <label htmlFor="password"><strong>Password:</strong></label>
                                 <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
                                 <ErrorMessage name="password" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="idEmployee">Employee ID</label>
+                                <label htmlFor="idEmployee"><strong>Employee ID:</strong></label>
                                 <Field name="idEmployee" type="text" className={'form-control' + (errors.idEmployee && touched.idEmployee ? ' is-invalid' : '')} />
                                 <ErrorMessage name="idEmployee" component="div" className="invalid-feedback" />
                             </div>

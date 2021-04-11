@@ -1,27 +1,28 @@
 import React from 'react';
 
-import { userService, authenticationService } from '@/_services';
+import { authenticationService } from '@/_services';
 
-import DataTable from "react-data-table-component";
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            currentUser: authenticationService.currentUserValue,
-            userFromApi: null
+            currentUser: authenticationService.currentUserValue
         };
     }
 
     render() {
 
-        const { currentUser, userFromApi } = this.state;
+        const { currentUser } = this.state;
         return (
-            <div>
-                <h1>Home</h1>
-                <p>Your role is: <strong>{currentUser.roles}</strong>.</p>
-                <p>Username: {currentUser.username}</p>
-                <p>Id: {currentUser.employeeId}</p>
+            <div class="welcomeHome">
+                <h1>Welcome to Zlagoda Managing System.</h1>
+                <p><strong>Role:</strong> <span class="badge bg-primary">{currentUser.roles}</span></p>
+                <p><strong>Username:</strong> {currentUser.username}</p>
+                <p><strong>Employee id:</strong> {currentUser.employeeId}</p>
+                <p><strong>Description:</strong></p>
+                <p>Manage your mini-market. Look through all Products, Categories, Checks, Sales etc.</p>
+                <p>Use simple and parametrized queries for more functionality.</p>
             </div>
         );
     }
