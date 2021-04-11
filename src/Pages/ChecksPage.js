@@ -21,7 +21,7 @@ class ChecksPage extends React.Component {
         while (true) {
             const { currentUser } = this.state;
             this.setState({ users: [] });
-            myArr = userService.getData('categories', currentUser)
+            myArr = userService.getData('checks', currentUser)
             await sleep(this.state.delay);
         }
     }

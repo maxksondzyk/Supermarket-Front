@@ -21,7 +21,7 @@ class CustomerCardsPage extends React.Component {
         while (true) {
             const { currentUser } = this.state;
             this.setState({ users: [] });
-            myArr = userService.getData('categories', currentUser)
+            myArr = userService.getData('customer-cards', currentUser)
             await sleep(this.state.delay);
         }
     }

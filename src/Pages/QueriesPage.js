@@ -5,62 +5,16 @@ import "../Styles/DataTable.styles.css"
 import {authenticationService} from "../_services";
 
 let results = []
-let titles = [
-    "Всі касири, які обслуговували покупців із Kyiv",
-    "Середня кількість товарів у чеку покупця",
-    "Найпопулярніші товари в кожній категорії",
-    "Найпопулярніші товари",
-    "Відсортовані за кількістю куплених товарів продукти, які купує покупець 1",
-    "Покупець який витратив найбільше коштів на продукти з категорії 1",
-    "Кількість товарів, які продаються по акції у кожній категорії",
-    "Загальна сума всіх чеків кожного касира за останні днів 400",
-    "Покупці відсортовані за кількістю витрачених грошей",
-    "Касири, які обслуговували всіх тих і тільки тих покупців, яких обслуговував Ivanenko",
-    "Покупці, які обслуговувалися у всіх тих і тільки тих касирів, що і покупець Tokar",
-    "Чеки із тими і тільки тими товарами що і у чеку 1"
-]
-let titlesBase = [
-    "Всі касири, які обслуговували покупців із ",
-    "Середня кількість товарів у чеку покупця",
-    "Найпопулярніші товари в кожній категорії",
-    "Найпопулярніші товари",
-    "Відсортовані за кількістю куплених товарів продукти, які купує покупець ",
-    "Покупець який витратив найбільше коштів на продукти з категорії ",
-    "Кількість товарів, які продаються по акції у кожній категорії",
-    "Загальна сума всіх чеків кожного касира за останні днів ",
-    "Покупці відсортовані за кількістю витрачених грошей",
-    "Касири, які обслуговували всіх тих і тільки тих покупців, яких обслуговував ",
-    "Покупці, які обслуговувалися у всіх тих і тільки тих касирів, що і покупець ",
-    "Чеки із тими і тільки тими товарами що і у чеку "
-]
 
 let urls = []
-
-let urlsBase = [
-    'http://localhost:8080/api/query/multi-table1/',
-    'http://localhost:8080/api/query/multi-table2',
-    'http://localhost:8080/api/query/multi-table3',
-    'http://localhost:8080/api/query/group1',
-    'http://localhost:8080/api/query/group2/',
-    'http://localhost:8080/api/query/group3/',
-    'http://localhost:8080/api/query/group4',
-    'http://localhost:8080/api/query/group5/',
-    'http://localhost:8080/api/query/group6',
-    'http://localhost:8080/api/query/double-not1/',
-    'http://localhost:8080/api/query/double-not2/',
-    'http://localhost:8080/api/query/double-not3/'
-]
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 class QueriesPage extends React.Component {
 
     state = {
         currentUser: authenticationService.currentUserValue,
         parameter: "",
-        currUrl: ""
+        currUrl: "",
+        currIndex: 0
     }
 
     onChange = e => {
@@ -85,6 +39,7 @@ class QueriesPage extends React.Component {
     }
 
     componentWillMount() {
+        results = []
 
         //Max
         let url2 = 'http://localhost:8080/api/query/multi-table2';
@@ -140,45 +95,57 @@ class QueriesPage extends React.Component {
 
         this.automateRefresh();
     }
+    handleChoice(index){
+        this.setState({currIndex: index});
+        // alert(this.state.currIndex)
+        // this.automateRefresh()
+    }
 
     getDataTables = () =>{
         return results.map((myArr,index) => {
             let keys = Object.keys(myArr[0]);
             const columns = []
             keys.forEach(function (item) {
-                columns.push({name: item, selector: item, sortable: true})
+                columns.push({name: item, selector: item, sortable: true, minWidth:`${13*item.length}px`})
             })
-            if(index===0 || index === 4 || index === 5 || index === 7 || index === 9 || index === 10 || index === 11) {
+            if(index === parseInt(localStorage.getItem("currIndex"))) {
+                if (index === 0 || index === 4 || index === 5 || index === 7 || index === 9 || index === 10 || index === 11) {
+                    return (
+                        <div className={"collapse-div"}>
+                            <DataTable title={titles[index]} columns={columns}
+                                       className="datatable" data={myArr} highlightOnHover pagination/>
+                            <form className="form-group" onSubmit={event => {
+                                this.handleSubmit(event, index)
+                            }}>
+                                <label htmlFor="inputData">Параметр</label>
+                                <div className="row">
+                                    <div className="col-md-3">
+                                        <input type="text" className="form-control" id="inputData"
+                                               aria-describedby="dataHelp"
+                                               placeholder="Введіть параметр"
+                                               onChange={this.onChange}/>
+                                        <button type="submit" className="btn btn-primary">
+                                            Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    );
+                } else {
+                    return (
+                        <div>
+                            <DataTable title={titles[index]} columns={columns}
+                                       className="datatable" data={myArr} highlightOnHover pagination/>
+                        </div>
+                    );
+                }
+            }else{
                 return (
                     <div>
-                        <form className="form-group" onSubmit={event => {
-                            this.handleSubmit(event, index)
-                        }}>
-                            <label htmlFor="inputData">Параметр</label>
-                            <div className="row">
-                                <div className="col-md-3">
-                                    <input type="text" className="form-control" id="inputData"
-                                           aria-describedby="dataHelp"
-                                           placeholder="Введіть параметр"
-                                           onChange={this.onChange}/>
-                                    <button type="submit" className="btn btn-primary">
-                                        Search
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                        <DataTable title={titles[index]} columns={columns}
-                                   className="datatable" data={myArr} highlightOnHover pagination/>
+                        <button className={"btn btn-collapse btn-secondary"} onClick={function(event){event.preventDefault(); localStorage.setItem("currIndex",index.toString()); location.reload() }}>{titles[index]}</button>
                     </div>
-                );
-            }
-            else {
-                return(
-                <div>
-                    <DataTable title={titles[index]} columns={columns}
-                               className="datatable" data={myArr} highlightOnHover pagination/>
-                </div>
-                );
+                )
             }
         })
     }
@@ -193,3 +160,48 @@ class QueriesPage extends React.Component {
 
 }
 export { QueriesPage };
+
+
+let titles = [
+    "Всі касири, які обслуговували покупців із Kyiv",
+    "Середня кількість товарів у чеку покупця",
+    "Найпопулярніші товари в кожній категорії",
+    "Найпопулярніші товари",
+    "Відсортовані за кількістю куплених товарів продукти, які купує покупець 1",
+    "Покупець який витратив найбільше коштів на продукти з категорії 1",
+    "Кількість товарів, які продаються по акції у кожній категорії",
+    "Загальна сума всіх чеків кожного касира за останні днів 400",
+    "Покупці відсортовані за кількістю витрачених грошей",
+    "Касири, які обслуговували всіх тих і тільки тих покупців, яких обслуговував Ivanenko",
+    "Покупці, які обслуговувалися у всіх тих і тільки тих касирів, що і покупець Tokar",
+    "Чеки із тими і тільки тими товарами що і у чеку 1"
+]
+let titlesBase = [
+    "Всі касири, які обслуговували покупців із ",
+    "Середня кількість товарів у чеку покупця",
+    "Найпопулярніші товари в кожній категорії",
+    "Найпопулярніші товари",
+    "Відсортовані за кількістю куплених товарів продукти, які купує покупець ",
+    "Покупець який витратив найбільше коштів на продукти з категорії ",
+    "Кількість товарів, які продаються по акції у кожній категорії",
+    "Загальна сума всіх чеків кожного касира за останні днів ",
+    "Покупці відсортовані за кількістю витрачених грошей",
+    "Касири, які обслуговували всіх тих і тільки тих покупців, яких обслуговував ",
+    "Покупці, які обслуговувалися у всіх тих і тільки тих касирів, що і покупець ",
+    "Чеки із тими і тільки тими товарами що і у чеку "
+]
+
+let urlsBase = [
+    'http://localhost:8080/api/query/multi-table1/',
+    'http://localhost:8080/api/query/multi-table2',
+    'http://localhost:8080/api/query/multi-table3',
+    'http://localhost:8080/api/query/group1',
+    'http://localhost:8080/api/query/group2/',
+    'http://localhost:8080/api/query/group3/',
+    'http://localhost:8080/api/query/group4',
+    'http://localhost:8080/api/query/group5/',
+    'http://localhost:8080/api/query/group6',
+    'http://localhost:8080/api/query/double-not1/',
+    'http://localhost:8080/api/query/double-not2/',
+    'http://localhost:8080/api/query/double-not3/'
+]

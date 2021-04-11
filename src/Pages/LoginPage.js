@@ -39,6 +39,7 @@ class LoginPage extends React.Component {
                                 user => {
                                     const { from } = this.props.location.state || { from: { pathname: "/" } };
                                     this.props.history.push(from);
+                                    location.reload()
 
                                 },
                                 error => {
@@ -46,7 +47,6 @@ class LoginPage extends React.Component {
                                     setStatus(error);
                                 }
                             );
-                        location.href = `/`;
                     }}
                     render={({ errors, status, touched, isSubmitting }) => (
                         <div>

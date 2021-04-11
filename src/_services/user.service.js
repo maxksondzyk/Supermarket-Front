@@ -1,8 +1,7 @@
-
-import {Button} from "@material-ui/core";
 import DataTable from "react-data-table-component";
-import React, {useEffect} from "react";
-import {BrowserRouter, Link} from "react-router-dom";
+import React from "react";
+import {Link} from "react-router-dom";
+import 'react-data-table-component-extensions/dist/index.css';
 
 export const userService = {
     getData,
@@ -95,22 +94,28 @@ function getRender(req,myArr, currentUser, name){
                 compact: true,
             })
         }
+
         return (
-            <div>
+            <div className={"datatable-cont"}>
                 <DataTable
                     title={name}
                     columns={columns}
                     className="datatable"
                     data={myArr}
                     highlightOnHover
-                    pagination
-                    actions={<Link to={'/add/'+req} params={{ "page": req }} className="btn btn-primary">Add</Link>}/>
+                    actions={
+                        <div>
+                        <Link to={'/add/'+req} params={{ "page": req }} className="btn btn-primary">Add</Link>
+                            <button className={"btn btn-primary"} onClick={window.print}>Print</button>
+                        </div>
+                    }
+                />
             </div>
         );
     }
     else return (
         <div>
-            <DataTable title={name} columns={columns} className="datatable" data={myArr} highlightOnHover pagination/>
+            <DataTable title={name} columns={columns} className="datatable" data={myArr} highlightOnHover actions={<button className={"btn btn-primary"} onClick={window.print}>Print</button>}/>
         </div>
     );
 }

@@ -62,3 +62,11 @@ G
 src/Pages/SignUpPage.js,2\1\21d64dc3a792624aa5af73aaf7d168ea222e211a
 M
 src/_services/user.service.js,4\0\40f1eb7a456779375c4f3ff49823e429528ffaa6
+G
+src/Pages/AddingPage.js,6\c\6c7837896f4a414f675c3236f249c8dd2b8caa13
+H
+src/Pages/EditingPage.js,1\e\1ed6969b699aa468e2e9f2cfbd6f932735d734f6
+O
+src/Pages/ManagerQueriesPage.js,4\9\49a7d6d6a146f3bb304da5381ced6143e020a7b2
+O
+src/Pages/CashierQueriesPage.js,4\5\4584ecc374f4aef242042e8b0d38b2f258950573

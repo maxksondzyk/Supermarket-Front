@@ -1,3 +1,4 @@
 
-]javascript:S1481"<Remove the declaration of the unused 'userFromApi' variable.(îÏÄ•úÿÿÿÿ
-Zjavascript:S1854"9Remove this useless assignment to variable "userFromApi".(îÏÄ•úÿÿÿÿ
+^javascript:S2189"6Correct this loop's end condition to not be invariant.(˜ïˆžÿÿÿÿÿ8ÒÎ€ê‹/
+djavascript:S1481%"<Remove the declaration of the unused 'userFromApi' variable.(îÏÄ•úÿÿÿÿ8ÒÎ€ê‹/
+ajavascript:S1854%"9Remove this useless assignment to variable "userFromApi".(îÏÄ•úÿÿÿÿ8ÒÎ€ê‹/

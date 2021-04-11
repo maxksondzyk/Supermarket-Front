@@ -5,7 +5,6 @@ import { history, Role } from './_helpers';
 import { authenticationService } from './_services';
 import { PrivateRoute } from './_components';
 import { HomePage } from './Pages/HomePage';
-import { AdminPage } from './Pages/AdminPage';
 import { LoginPage } from './Pages/LoginPage';
 import {EmployeesPage} from "./Pages/EmployeesPage";
 import {ProductsPage} from "./Pages/ProductsPage";
@@ -17,7 +16,8 @@ import {QueriesPage} from "./Pages/QueriesPage";
 import {SignUpPage} from "./Pages/SignUpPage";
 import {AddingPage} from "./Pages/AddingPage";
 import {EditingPage} from "./Pages/EditingPage";
-
+import {ManagerQueriesPage} from "./Pages/ManagerQueriesPage";
+import {CashierQueriesPage} from "./Pages/CashierQueriesPage";
 
 class App extends React.Component {
 
@@ -48,17 +48,46 @@ class App extends React.Component {
             <Router history={history}>
                 <div>
                     {currentUser &&
-                        <nav className="navbar navbar-expand navbar-dark bg-dark">
-                            <div className="navbar-nav">
-                                <Link to="/" className="nav-item nav-link">Home</Link>
-                                {isManager && <Link to="/employees" className="nav-item nav-link">Employees</Link>}
-                                {<Link to="/products" className="nav-item nav-link">Products</Link>}
-                                {<Link to="/store-products" className="nav-item nav-link">Store Products</Link>}
-                                {<Link to="/categories" className="nav-item nav-link">Categories</Link>}
-                                {<Link to="/checks" className="nav-item nav-link">Checks</Link>}
-                                {<Link to="/customer-cards" className="nav-item nav-link">Customer Cards</Link>}
-                                {<Link to="/queries" className="nav-item nav-link">Queries</Link>}
-                                <a onClick={this.signOut} className="nav-item nav-link">Logout</a>
+                        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                            <Link to="/" className="navbar-brand nav-item nav-link">Zlagoda</Link>
+                            <button className="navbar-toggler" type="button" data-toggle="collapse"
+                                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                    aria-expanded="false" aria-label="Toggle navigation">
+                                <span className="navbar-toggler-icon"></span>
+                            </button>
+                            <div className="navbar-collapse" id="navbarSupportedContent">
+                                <ul className="navbar-nav mr-auto">
+                                    <li className="nav-item">
+                                        {isManager && <Link to="/employees" className="nav-item nav-link">Employees</Link>}
+                                    </li>
+                                    <li className="nav-item">
+                                        {<Link to="/products" className="nav-item nav-link">Products</Link>}
+                                    </li>
+                                    <li className="nav-item">
+                                        {<Link to="/store-products" className="nav-item nav-link">Store Products</Link>}
+                                    </li>
+                                    <li className="nav-item">
+                                        {<Link to="/categories" className="nav-item nav-link">Categories</Link>}
+                                    </li>
+                                    <li className="nav-item">
+                                        {<Link to="/checks" className="nav-item nav-link">Checks</Link>}
+                                    </li>
+                                    <li className="nav-item">
+                                        {<Link to="/customer-cards" className="nav-item nav-link">Customer Cards</Link>}
+                                    </li>
+                                    <li className="nav-item">
+                                        {<Link to="/queries" className="nav-item nav-link">Queries</Link>}
+                                    </li>
+                                    <li className="nav-item">
+                                        {isManager && <Link to="/manager-queries" className="nav-item nav-link">Manager Queries</Link>}
+                                    </li>
+                                    <li className="nav-item">
+                                        {<Link to="/cashier-queries" className="nav-item nav-link">Cashier Queries</Link>}
+                                    </li>
+                                    <li className="nav-item">
+                                        <a onClick={this.signOut} className="nav-item nav-link">Logout</a>
+                                    </li>
+                                </ul>
                             </div>
                         </nav>
                     }
@@ -72,6 +101,8 @@ class App extends React.Component {
                             <PrivateRoute path="/checks" component={ChecksPage} />
                             <PrivateRoute path="/customer-cards" component={CustomerCardsPage} />
                             <PrivateRoute path="/queries" component={QueriesPage} />
+                            <PrivateRoute path="/manager-queries" component={ManagerQueriesPage} />
+                            <PrivateRoute path="/cashier-queries" component={CashierQueriesPage} />
                             <PrivateRoute path="/add/:req" component={AddingPage} />
                             <PrivateRoute path="/edit/:req" component={EditingPage} />
                             <Route path="/login" component={LoginPage} />

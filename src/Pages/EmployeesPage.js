@@ -17,24 +17,25 @@ class EmployeesPage extends React.Component {
         }
         this.automateRefresh = this.automateRefresh.bind(this);
     }
+
     async automateRefresh() {
         while (true) {
-            const { currentUser } = this.state;
-            this.setState({ users: [] });
-            myArr = userService.getData('categories', currentUser)
+            const {currentUser} = this.state;
+            this.setState({users: []});
+            myArr = userService.getData('employees', currentUser)
             await sleep(this.state.delay);
         }
     }
 
     componentWillMount() {
-        const { currentUser } = this.state;
+        const {currentUser} = this.state;
         myArr = userService.getData('employees', currentUser)
         this.automateRefresh()
     }
 
     render() {
-        const { currentUser} = this.state;
-        return userService.getRender('employees',myArr,currentUser, "Employees");
+        const {currentUser} = this.state;
+        return (userService.getRender('employees', myArr, currentUser, "Employees"));
     }
 }
 function sleep(ms) {
