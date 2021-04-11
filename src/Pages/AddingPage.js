@@ -67,6 +67,7 @@ class AddingPage extends React.Component {
         xhr.send()
         return myArr;
     }
+
     sendData = event =>{
         const { currentUser} = this.state;
         let body = `{"${event.target[0].id}":"${event.target[0].value}"`;
@@ -77,10 +78,17 @@ class AddingPage extends React.Component {
         }
         body = body.concat(`}`)
         let xhr = new XMLHttpRequest()
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 201) {
+                location.href = `/${this.props.match.params.req}`;
+            } else if (xhr.readyState === XMLHttpRequest.DONE) {
+                const errorMsg = JSON.parse(xhr.responseText)
+                alert(errorMsg.message);
+            }
+        };
+
         // get a callback when the server responds
-        xhr.addEventListener('load', () => {
-            location.href = `/${this.state.req}`;
-        })
         // open the request with the verb and the url
         xhr.open('POST', `http://localhost:8080/api/${this.state.req}`,false)
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
