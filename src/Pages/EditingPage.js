@@ -124,7 +124,7 @@ class EditingPage extends React.Component {
         for(let i = 0;i<rowKeys.length;i++){
                 toRender.push(<div className="form-group">
                     <label htmlFor="inp">{rowKeys[i]}</label>
-                    <input type={types[i]} name="inp" defaultValue={rowValues[i]} className="form-control" id={i}>
+                    <input type={types[i]} name="inp" defaultValue={rowValues[i]} className="form-control" id={rowKeys[i]}>
                     </input>
                 </div>);
         }

@@ -9,14 +9,9 @@ import DataTable from "react-data-table-component";
 
 let myArr;
 let storeProductsTypes = ['upc','idProduct','sellingPrice','productNumber','promotionalProduct']
-let prods1 = [];
+let prods = [];
 let already = 0;
-let cols = [
-    {name: "upc", selector: "upc"},
-    {name: "idProduct", selector: "idProduct"},
-    {name: "sellingPrice", selector: "sellingPrice"},
-    {name: "quantity", selector: "quantity"}
-]
+
 
 class NewCheckPage extends React.Component {
     constructor(props) {
@@ -34,11 +29,10 @@ class NewCheckPage extends React.Component {
     }
 
     addProduct(event, row){
-        alert(this.state.prods)
-        for(let i = 0;i<prods1.length;i++){
-            if(prods1[i].upc === row["upc"]){
+        for(let i = 0;i<prods.length;i++){
+            if(prods[i].upc === row["upc"]){
                 already = 1;
-                prods1[i].quantity +=1;
+                prods[i].quantity +=1;
                 break;
             }
 
@@ -47,7 +41,7 @@ class NewCheckPage extends React.Component {
             let upc = row["upc"];
             let idProduct = row["idProduct"];
             let sellingPrice = row["sellingPrice"];
-            prods1.push({
+            prods.push({
                 "upc": upc,
                 "idProduct": idProduct,
                 "sellingPrice": sellingPrice,
@@ -55,7 +49,38 @@ class NewCheckPage extends React.Component {
             });
         }
         already = 0;
-        this.setState({prods: prods1})
+        this.setState({prods: prods})
+    }
+    printCheck(){
+
+    }
+    delProduct(event, row){
+        for(let i = 0;i<prods.length;i++){
+            if(prods[i].upc === row["upc"]){
+                if(prods[i].quantity>1) {
+                    prods[i].quantity -= 1;
+                    break;
+                }
+                else {
+                    prods.splice(i,i+1)
+                }
+
+            }
+
+        }
+        // if(already === 0) {
+        //     let upc = row["upc"];
+        //     let idProduct = row["idProduct"];
+        //     let sellingPrice = row["sellingPrice"];
+        //     prods.push({
+        //         "upc": upc,
+        //         "idProduct": idProduct,
+        //         "sellingPrice": sellingPrice,
+        //         "quantity": 1
+        //     });
+        // }
+        // already = 0;
+        this.setState({prods: prods})
     }
 
     render() {
@@ -80,6 +105,15 @@ class NewCheckPage extends React.Component {
                 button: true,
                 compact: true
             })
+            const cols = [
+                {cell: row => <button onClick={(event)=>this.delProduct(event,row)} className="btn btn-warning">Delete</button>,
+                 button: true,
+                 compact: true},
+                {name: "upc", selector: "upc"},
+                {name: "idProduct", selector: "idProduct"},
+                {name: "sellingPrice", selector: "sellingPrice"},
+                {name: "quantity", selector: "quantity"}
+            ]
 
             return (
                 <div className={"datatable-cont"}>
@@ -94,8 +128,7 @@ class NewCheckPage extends React.Component {
                         highlightOnHover
                         actions={
                             <div>
-                                <Link to={'/add/'+req} params={{ "page": req }} className="btn btn-primary">Add</Link>
-                                <button className={"btn btn-primary"} onClick={window.print}>Print</button>
+                                <button className={"btn btn-primary"} onClick={(event)=>this.printCheck(event)}>Print</button>
                             </div>
                         }
                     />
