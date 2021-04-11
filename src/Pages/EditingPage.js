@@ -103,13 +103,16 @@ class EditingPage extends React.Component {
         }
         body = body.concat(`}`)
         let xhr = new XMLHttpRequest()
-        xhr.onreadystatechange = function() {
 
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                location.href = `/${this.state.req}`;
+            } else if (xhr.readyState === XMLHttpRequest.DONE) {
+                const errorMsg = JSON.parse(xhr.responseText)
+                alert(errorMsg.message);
+            }
         };
-        // get a callback when the server responds
-        xhr.addEventListener('load', () => {
-            location.href = `/${this.state.req}`;
-        })
+
         // open the request with the verb and the url
         xhr.open('PUT', `http://localhost:8080/api/${this.state.req}/${event.target[0].value}`,false)
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
