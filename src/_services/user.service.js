@@ -37,13 +37,19 @@ function deleteRows(event,row){
     event.preventDefault();
         // create a new XMLHttpRequest
         let xhr = new XMLHttpRequest()
+
+        // checking result of request and handling errors
         xhr.onreadystatechange = function () {
-
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                location.reload()
+                getData(page, currentUser)
+                return;
+            } else if (this.readyState === XMLHttpRequest.DONE) {
+                const errorMsg = JSON.parse(xhr.responseText)
+                alert(errorMsg.message);
+            }
         };
-        // get a callback when the server responds
-        xhr.addEventListener('load', () => {
 
-        })
         let id = 0;
         for (let key in row) {
             if (row.hasOwnProperty(key)) {
@@ -56,9 +62,7 @@ function deleteRows(event,row){
 
         xhr.setRequestHeader("Authorization", `Bearer ${currentUser.token}`)
         // send the request
-        xhr.send()
-        getData(page, currentUser)
-    location.reload()
+        xhr.send()        
 }
 
 
@@ -116,7 +120,12 @@ function getRender(req,myArr, currentUser, name){
     }
     else return (
         <div>
-            <DataTable title={name} columns={columns} className="datatable" data={myArr} highlightOnHover actions={<button className={"btn btn-primary"} onClick={window.print}>Print</button>}/>
+            <DataTable title={name} 
+            columns={columns} 
+            className="datatable" 
+            data={myArr} 
+            highlightOnHover actions={<button className={"btn btn-primary"} 
+            onClick={window.print}>Print</button>}/>
         </div>
     );
 }

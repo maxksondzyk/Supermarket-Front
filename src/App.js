@@ -81,13 +81,13 @@ class App extends React.Component {
                                         {<Link to="/sales" className="nav-item nav-link">Sales</Link>}
                                     </li>
                                     <li className="nav-item">
-                                        {isManager && <Link to="/manager-queries" className="nav-item nav-link">Manager Queries</Link>}
+                                        {isManager && <Link to="/manager-queries" onClick={() => localStorage.removeItem("currIndex")} className="nav-item nav-link">Manager Queries</Link>}
                                     </li>
                                     <li className="nav-item">
                                         {<Link to="/new-check" className="nav-item nav-link">New Check</Link>}
                                     </li>
                                     <li className="nav-item">
-                                        {<Link to="/cashier-queries" className="nav-item nav-link">Cashier Queries</Link>}
+                                        {<Link to="/cashier-queries" onClick={() => localStorage.removeItem("currIndex")} className="nav-item nav-link">Cashier Queries</Link>}
                                     </li>
                                     <li className="nav-item">
                                         <a onClick={this.signOut} className="nav-item nav-link">Logout</a>
