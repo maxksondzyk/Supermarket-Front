@@ -40,7 +40,7 @@ function deleteRows(event,row){
 
         // checking result of request and handling errors
         xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 204) {
                 location.reload()
                 getData(page, currentUser)
                 return;
