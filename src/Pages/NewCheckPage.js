@@ -4,6 +4,8 @@ import { userService } from '@/_services';
 import "../Styles/DataTable.styles.css"
 import {authenticationService} from "../_services";
 import 'regenerator-runtime/runtime'
+import DataTableExtensions from 'react-data-table-component-extensions';
+import 'react-data-table-component-extensions/dist/index.css';
 import {Link} from "react-router-dom";
 import DataTable from "react-data-table-component";
 
@@ -183,6 +185,13 @@ class NewCheckPage extends React.Component {
                 {name: "sellingPrice", selector: "sellingPrice"},
                 {name: "quantity", selector: "quantity"}
             ]
+        const columns1 = columns;
+        const data = myArr;
+        let tableData = {
+            columns,
+            data
+        }
+
 
             return (
                 <div className={"datatable-cont"}>
@@ -223,13 +232,17 @@ class NewCheckPage extends React.Component {
                         </div>
                     </form>
 
+                    <DataTableExtensions
+                        {...tableData}
+                    >
                     <DataTable
                         title={"Products"}
-                        columns={columns}
+                        // columns={columns}
                         className="datatable"
-                        data={myArr}
+                        // data={myArr}
                         highlightOnHover
                     />
+                    </DataTableExtensions>
                 </div>
             );
 
