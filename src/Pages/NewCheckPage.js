@@ -69,7 +69,7 @@ class NewCheckPage extends React.Component {
         event.preventDefault();
         let xhr = new XMLHttpRequest()
         xhr.onreadystatechange = function() {
-            // location.href = '/checks'
+            location.href = '/checks'
         };
 
         // open the request with the verb and the url
