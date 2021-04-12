@@ -84,12 +84,14 @@ function getRender(req,myArr, currentUser, name){
                 }
             )
         }
-
-        columns.unshift({
-            cell: row => <Link to={newTo(row)} variant={"outlined"} color="primary" size={"small"} className="btn btn-warning">Edit</Link>,
-            button: true,
-            compact: true
-        })
+        if(page !== 'checks') {
+            columns.unshift({
+                cell: row => <Link to={newTo(row)} variant={"outlined"} color="primary" size={"small"}
+                                   className="btn btn-warning">Edit</Link>,
+                button: true,
+                compact: true
+            })
+        }
         if(currentUser.roles[0] === 'manager') {
             columns.unshift({
                 cell: row => <button onClick={function (event) {
