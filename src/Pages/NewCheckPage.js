@@ -43,13 +43,19 @@ class NewCheckPage extends React.Component {
         }
         if(already === 0) {
             let upc = row["upc"];
+            let upcProm = row["upcProm"];
             let idProduct = row["idProduct"];
             let sellingPrice = row["sellingPrice"];
+            let promotionalProduct = row["promotionalProduct"];
+            let productNumber = row["productNumber"]
             sum+=sellingPrice;
             prods.push({
                 "upc": upc,
+                "upcProm": upcProm,
                 "idProduct": idProduct,
                 "sellingPrice": sellingPrice,
+                "promotionalProduct": promotionalProduct,
+                "productNumber": productNumber,
                 "quantity": 1
             });
         }
@@ -61,7 +67,7 @@ class NewCheckPage extends React.Component {
         event.preventDefault();
         let xhr = new XMLHttpRequest()
         xhr.onreadystatechange = function() {
-            location.href = '/checks'
+            // location.href = '/checks'
         };
 
         // open the request with the verb and the url
@@ -105,22 +111,26 @@ class NewCheckPage extends React.Component {
     }
     removeProducts(event){
         event.preventDefault();
-        let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function (){
+        for(let i = 0;i<prods.length;i++) {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
 
-        }
-        // open the request with the verb and the url
-        xhr.open('PUT', `http://localhost:8080/api/store-products`,false)
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.setRequestHeader("Authorization", `Bearer ${this.state.currentUser.token}`)
+            }
+            // open the request with the verb and the url
+            xhr.open('PUT', `http://localhost:8080/api/store-products/${prods[i].upc}`, false)
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.setRequestHeader("Authorization", `Bearer ${this.state.currentUser.token}`)
 
-        let body = {
-            "upc":`${prods[i].upc}`,
-            "checkNumber": `${this.state.checkId}`,
-            "productNumber": `${prods[i].quantity}`,
-            "sellingPrice": `${prods[i].sellingPrice}`
+            let body = {
+                "upc": `${prods[i].upc}`,
+                "upcProm": prods[i].upcProm,
+                "idProduct": `${prods[i].idProduct}`,
+                "sellingPrice": `${prods[i].sellingPrice}`,
+                "productNumber": `${prods[i].productNumber-prods[i].quantity}`,
+                "promotionalProduct": `${prods[i].promotionalProduct}`
+            }
+            xhr.send(JSON.stringify(body))
         }
-        xhr.send(JSON.stringify(body))
     }
     delProduct(event, row){
         for(let i = 0;i<prods.length;i++){
@@ -151,14 +161,14 @@ class NewCheckPage extends React.Component {
     render() {
         const { currentUser} = this.state;
         let req = 'store-products'
+        myArr.forEach(function (item,index){
+            item.promotionalProduct = item.promotionalProduct.toString();
+        });
         let keys = Object.keys(myArr[0]);
         const columns = []
         keys.forEach(function (item, index) {
             columns.push({name: item, selector: item, sortable: true, minWidth:`${13*item.length}px`})
         })
-
-        if(currentUser.roles[0] === 'manager' || req ==='checks' || req === 'customer-cards'){
-
             columns.unshift({
                 cell: row => <button onClick={(event)=>this.addProduct(event,row)} className="btn btn-warning">Add</button>,
                 button: true,
@@ -222,12 +232,7 @@ class NewCheckPage extends React.Component {
                     />
                 </div>
             );
-        }
-        else return (
-            <div>
-                <DataTable title={name} columns={columns} className="datatable" data={myArr} highlightOnHover actions={<button className={"btn btn-primary"} onClick={window.print}>Print</button>}/>
-            </div>
-        );
+
     }
 }
 export { NewCheckPage };

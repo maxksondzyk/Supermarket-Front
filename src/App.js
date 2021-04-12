@@ -84,7 +84,7 @@ class App extends React.Component {
                                         {isManager && <Link to="/manager-queries" onClick={() => localStorage.removeItem("currIndex")} className="nav-item nav-link">Manager Queries</Link>}
                                     </li>
                                     <li className="nav-item">
-                                        {<Link to="/new-check" className="nav-item nav-link">New Check</Link>}
+                                        {!isManager && <Link to="/new-check" className="nav-item nav-link">New Check</Link>}
                                     </li>
                                     <li className="nav-item">
                                         {<Link to="/cashier-queries" onClick={() => localStorage.removeItem("currIndex")} className="nav-item nav-link">Cashier Queries</Link>}
@@ -109,7 +109,7 @@ class App extends React.Component {
                             <PrivateRoute path="/sales" component={SalesPage} />
                             <PrivateRoute path="/manager-queries" roles={[Role.Manager]} component={ManagerQueriesPage} />
                             <PrivateRoute path="/cashier-queries" component={CashierQueriesPage} />
-                            <PrivateRoute path="/new-check" component={NewCheckPage} />
+                            <PrivateRoute path="/new-check" roles={[Role.Cashier]}component={NewCheckPage} />
                             <PrivateRoute path="/add/:req" component={AddingPage} />
                             <PrivateRoute path="/edit/:req" component={EditingPage} />
                             <Route path="/login" component={LoginPage} />
