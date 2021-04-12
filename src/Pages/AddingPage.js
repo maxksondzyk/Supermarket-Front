@@ -102,11 +102,19 @@ class AddingPage extends React.Component {
         let rowKeys = Object.keys(myArr[0]);
         let toRender = [];
         for(let i = 0;i<rowKeys.length;i++){
+            if(types[i] === 'number'){
+                toRender.push(<div className="form-group">
+                    <label htmlFor="inp">{rowKeys[i]}</label>
+                    <input type={types[i]} step="0.01" name="inp" className="form-control" id={rowKeys[i]}>
+                    </input>
+                </div>);
+            } else {
                 toRender.push(<div className="form-group">
                     <label htmlFor="inp">{rowKeys[i]}</label>
                     <input type={types[i]} name="inp" className="form-control" id={rowKeys[i]}>
                     </input>
                 </div>);
+            }
         }
         return (
             <div>

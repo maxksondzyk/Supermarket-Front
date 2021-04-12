@@ -122,7 +122,8 @@ function getRender(req,myArr, currentUser, name){
             <DataTable title={name} 
             columns={columns} 
             className="datatable" 
-            data={myArr} 
+            data={myArr}
+                       pagination
             highlightOnHover actions={<button className={"btn btn-primary"} 
             onClick={window.print}>Print</button>}/>
         </div>

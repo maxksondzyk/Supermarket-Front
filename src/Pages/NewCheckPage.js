@@ -14,7 +14,7 @@ let storeProductsTypes = ['upc','idProduct','sellingPrice','productNumber','prom
 let prods = [];
 let already = 0;
 let sum = 0;
-
+let success;
 
 class NewCheckPage extends React.Component {
     constructor(props) {
@@ -66,7 +66,15 @@ class NewCheckPage extends React.Component {
     }
 
     printCheck(event){
+        success = true;
         event.preventDefault();
+        for(let i = 0;i<prods.length;i++){
+            if(prods[i].productNumber<prods[i].quantity){
+                alert('На складі '+prods[i].productNumber+' {'+prods[i].upc+'}. Спроба вилучити '+prods[i].quantity)
+                success = false
+                return;
+            }
+        }
         let xhr = new XMLHttpRequest()
         xhr.onreadystatechange = function() {
             location.href = '/checks'
@@ -203,8 +211,10 @@ class NewCheckPage extends React.Component {
                         className="form-group checkForm"
                         onSubmit={(event) => {
                             this.printCheck(event);
-                            this.addSales(event);
-                            this.removeProducts(event);
+                            if(success) {
+                                this.addSales(event);
+                                this.removeProducts(event);
+                            }
                         }}
                     >
                         <div className="row">

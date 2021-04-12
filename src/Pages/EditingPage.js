@@ -125,11 +125,20 @@ class EditingPage extends React.Component {
         const { rowKeys, rowValues} = this.state;
         let toRender = [];
         for(let i = 0;i<rowKeys.length;i++){
+            if(types[i] === 'number'){
                 toRender.push(<div className="form-group">
                     <label htmlFor="inp">{rowKeys[i]}</label>
-                    <input type={types[i]} name="inp" defaultValue={rowValues[i]} className="form-control" id={rowKeys[i]}>
+                    <input type={types[i]} step="0.01" name="inp" defaultValue={rowValues[i]} className="form-control" id={rowKeys[i]}>
                     </input>
                 </div>);
+            }else {
+                toRender.push(<div className="form-group">
+                    <label htmlFor="inp">{rowKeys[i]}</label>
+                    <input type={types[i]} name="inp" defaultValue={rowValues[i]} className="form-control"
+                           id={rowKeys[i]}>
+                    </input>
+                </div>);
+            }
         }
         return (
             <div>
